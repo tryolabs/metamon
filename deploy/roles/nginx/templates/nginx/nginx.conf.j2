@@ -1,0 +1,85 @@
+{% set nginx_user = run_as_user|default(supervisor_name) %}
+user {{ nginx_user }} www-data;
+worker_processes  1;
+daemon off; # run in the foreground so supervisord can look after it
+pid /var/run/{{ supervisor_name }}.pid;
+
+error_log  {{ log_dir }}/{{ supervisor_name }}/error.log  info;
+
+events {
+    worker_connections   1024;
+    use epoll;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+    access_log /tmp/nginx.access.log combined;
+    sendfile on;
+
+    gzip on;
+    gzip_min_length  1100;
+    gzip_buffers     4 8k;
+    gzip_types       text/plain text/css application/x-javascript;
+
+    server {
+        listen 80 default;
+        client_max_body_size 4G;
+        server_name _;
+
+        keepalive_timeout 5;
+
+        location /static/ {
+            alias {{ repo_dir }}/{{ project_name }}/static/;
+            expires 0;
+        }
+
+        location / {
+            proxy_pass http://127.0.0.1:{{ settings_gunicorn_port }};
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_connect_timeout 300s;
+            proxy_read_timeout 300s;
+
+            #  POST and OPTIONS have X-HTTP-Method-Override to allow patching via post.
+            if ($request_method = 'OPTIONS') {
+              add_header 'Access-Control-Allow-Origin' '{{ cors_allow_url }}';
+              add_header 'Access-Control-Allow-Methods' 'POST, GET, PUT, PATCH, DELETE, HEAD, OPTIONS';
+              add_header 'Access-Control-Allow-Headers' 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, Authorization, X-HTTP-Method-Override';
+              add_header 'Access-Control-Max-Age' '1728000';
+              add_header 'Content-Type' 'text/plain; charset=UTF-8';
+              add_header 'Content-Length' 0;
+              return 204;
+            }
+
+            if ($request_method = 'GET') {
+               more_set_headers 'Access-Control-Allow-Origin: {{ cors_allow_url }}';
+               more_set_headers 'Access-Control-Allow-Credentials: true';
+               more_set_headers 'Access-Control-Allow-Methods: POST, GET, PUT, PATCH, DELETE, HEAD, OPTIONS';
+               more_set_headers 'Access-Control-Allow-Headers: DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, Authorization,';
+            }
+
+            if ($request_method = 'POST') {
+               more_set_headers 'Access-Control-Allow-Origin: {{ cors_allow_url }}';
+               more_set_headers 'Access-Control-Allow-Credentials: true';
+               more_set_headers 'Access-Control-Allow-Methods: POST, GET, PUT, PATCH, DELETE, HEAD, OPTIONS';
+               more_set_headers 'Access-Control-Allow-Headers: DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, Authorization, X-HTTP-Method-Override';
+            }
+
+            if ($request_method = 'PATCH') {
+               more_set_headers 'Access-Control-Allow-Origin: {{ cors_allow_url }}';
+               more_set_headers 'Access-Control-Allow-Credentials: true';
+               more_set_headers 'Access-Control-Allow-Methods: POST, GET, PUT, PATCH, DELETE, HEAD, OPTIONS';
+               more_set_headers 'Access-Control-Allow-Headers: DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, Authorization';
+            }
+
+            if ($request_method = 'DELETE') {
+               more_set_headers 'Access-Control-Allow-Origin: {{ cors_allow_url }}';
+               more_set_headers 'Access-Control-Allow-Credentials: true';
+               more_set_headers 'Access-Control-Allow-Methods: POST, GET, PUT, PATCH, DELETE, HEAD, OPTIONS';
+               more_set_headers 'Access-Control-Allow-Headers: DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type, Authorization';
+            }
+        }
+    }
+}

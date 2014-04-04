@@ -1,0 +1,2 @@
+django-coverage==1.2.4
+django-plainpasswordhasher==0.3

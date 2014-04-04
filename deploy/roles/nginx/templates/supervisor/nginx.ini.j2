@@ -1,0 +1,11 @@
+[program:{{ supervisor_name }}]
+command = /usr/sbin/nginx -c {{ supervisor_conf_dir }}/{{ supervisor_name }}.conf
+autorestart = false
+autostart = false
+numprocs = 1
+redirect_stderr = True
+stopwaitsecs = 10
+startsecs = 10
+priority = 999
+startretries = 2
+stdout_logfile = {{ log_dir }}/{{ supervisor_name }}/stdout.log

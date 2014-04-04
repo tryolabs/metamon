@@ -1,0 +1,41 @@
+---
+#
+# Deployment of DB servers.
+#
+- name: system-wide install of psycopg2
+  pip: name=psycopg2 state=present
+
+- name: ensure PostgreSQL PPA repo
+  apt_repository: repo=ppa:chris-lea/postgresql-9.3  state=present
+
+- name: install PostgreSQL
+  apt: pkg={{ item }} update_cache=yes state=present
+  with_items:
+    - postgresql-9.3
+    - postgresql-server-dev-9.3
+    - postgresql-client-9.3
+    - postgresql-plpython-9.3
+  notify:
+    - restart postgresql
+
+- name: ensure Postgres service is stopped
+  service: name=postgresql state=stopped
+
+#
+# Postgres under supervisor
+#
+- include: ../../../common/tasks/supervisor_service.yml
+           service_type=apt
+           role=dbserver
+           system_service_name=postgresql
+           service_name=postgresql
+           supervisor_name=postgresql
+           run_as_user=postgres
+  vars:
+    additional_confs: ['pg_ident.conf', 'pg_hba.conf']
+
+- name: dummy task to call handlers for PostgreSQL stuff
+  command: /bin/true
+  notify:
+    - ensure PostgreSQL user
+    - ensure PostgreSQL db

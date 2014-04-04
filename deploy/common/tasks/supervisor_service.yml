@@ -1,0 +1,105 @@
+#
+#  Run a service under supervisord.
+#
+#  Expects the following variables:
+#
+#    * role: the current role (in order to search for the .ini file template).
+#    * service_name: name of the service (for example "gunicorn".
+#    * supervisor_name: desired name of the service in supervisor (for
+#                       example "gunicorn").
+#    * service_type: either ['apt', 'django', 'non-apt']
+#    * conf_file_name: if different than {{ service_name }}
+#
+
+#
+# Non-apt services get their user created in /home/
+#
+- name: ensure {{ supervisor_name }} user
+  user: name={{ supervisor_name }} groups={{ services_user_groups[service_type] }}
+        createhome=true home=/home/{{ supervisor_name }}  state=present
+  when: service_type != 'apt'
+
+#
+# Apt services get their user in /var/lib and only if add_service_user == 'Y'
+#
+- name: ensure {{ supervisor_name }} user
+  user: name={{ supervisor_name }} group={{ services_user_groups[service_type] }}
+        home=/var/lib/{{ supervisor_name }} system=yes state=present
+  when: service_type == 'apt' and add_service_user|default('N') == 'Y'
+
+- name: disable initd potential launch on boot that apt-get might have set up
+  command: update-rc.d {{ system_service_name }} disable
+           removes=/etc/init.d/{{ system_service_name }}
+  when: service_type == 'apt' and system_service_name is defined
+
+- name: disable upstart potential launch on boot that apt-get might have set up
+  template: src=roles/common/templates/aptservices/manual.j2
+            dest=/etc/init/{{ system_service_name }}.override
+  when: service_type == 'apt' and system_service_name is defined
+
+#
+# Generic log dir files and permissions
+#
+- name: ensure correct permissions of existing files in log directory
+  file: path={{ log_dir }}/{{ supervisor_name }} state=directory recurse=yes
+        owner={{ run_as_user|default(supervisor_name) }}
+        group={{ services_user_groups[service_type] }} mode=644
+
+- name: ensure correct permissions of log directory
+  file: path={{ log_dir }}/{{ supervisor_name }} state=directory mode=755
+        owner={{ run_as_user|default(supervisor_name) }}
+        group={{ services_user_groups[service_type] }}
+
+#
+# Conf files only if needed (no_confs is not defined)
+#
+- name: create default {{ supervisor_name }} conf for supervisor
+  template: src=roles/{{ role }}/templates/{{ service_name }}/{{ conf_file_name|default(service_name) }}.conf.j2
+            dest={{ supervisor_conf_dir }}/{{ supervisor_name }}.conf
+            owner=root group=root mode=644
+  when: service_type != 'django' and no_confs|default('N') == 'N'
+  notify:
+    - run supervisorctl update
+    - restart {{ supervisor_name }}
+  tags:
+    - supervisor_conf
+
+- name: create extra confs needed by {{ supervisor_name }}
+  template: src=roles/{{ role }}/templates/{{ service_name }}/{{ item }}.j2
+            dest={{ supervisor_conf_dir }}/{{ supervisor_name }}_{{ item }}
+            owner=root group=root mode=644
+  with_items: additional_confs
+  when: additional_confs is defined
+  notify:
+    - run supervisorctl update
+    - restart {{ supervisor_name }}
+  tags:
+      - supervisor_conf
+
+#
+# Supervisor init script
+#
+- name: create {{ service_name }} init script for use with supervisor
+  template: src=roles/{{ role }}/templates/supervisor/{{ service_name }}.ini.j2
+            dest={{ supervisor_init_dir }}/{{ supervisor_name }}
+            owner=root group=root mode=644
+  notify:
+    - run supervisorctl update
+
+#
+# Instead of making sure that supervisord and the service are started right
+# now, we use handlers so they are actually started at the end of the playbook
+# run.
+# This is because if we have say services 1 and 2 (started in that order), a
+# misconfigured log file for 2 may prevent supervisord service from starting
+# when setting up 1. By doing everything at the end, we ensure that everything
+# needed to start the services is setup correctly before doing so.
+#
+- name: dummy task to notify handlers that will be run at the end of the
+        playbook.
+  command: /bin/true
+  notify:
+    - ensure supervisord service is started
+    - run supervisorctl update
+    - ensure {{ supervisor_name }} is present in supervisor
+    - ensure {{ supervisor_name }} is started

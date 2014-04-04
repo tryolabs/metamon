@@ -1,0 +1,7 @@
+---
+
+# Reload supervisor service only if it hasn't just been started for the
+# first time.
+- name: reload supervisor service
+  service: name=supervisord state=reloaded enabled=yes
+  when: not first_started_supervisor_service.changed

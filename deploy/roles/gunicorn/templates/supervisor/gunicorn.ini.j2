@@ -1,0 +1,18 @@
+[program:{{ supervisor_name }}]
+command = {{ virtualenv_bin_dir }}/python manage.py run_gunicorn --timeout=300 --keep-alive={{ settings_gunicorn_keepalive }} --workers={{ settings_gunicorn_num_workers }} --bind={{ settings_gunicorn_bind_addr }}:{{ settings_gunicorn_port }} --settings={{ django_settings_python_path }} --log-level DEBUG --access-logfile={{ log_dir }}/{{ supervisor_name }}/access.log --error-logfile={{ log_dir }}/{{ supervisor_name }}/error.log --name=gunicorn
+autorestart = false
+autostart = false
+directory = {{ repo_dir }}/{{ project_name }}
+user = {{ run_as_user|default(supervisor_name) }}
+numprocs = 1
+redirect_stderr = True
+stopwaitsecs = 10
+startsecs = 10
+priority = 999
+startretries = 3
+stdout_logfile = {{ log_dir }}/{{ supervisor_name }}/stdout.log
+std_out_logfile_maxbytes = 50MB
+std_out_logfile_backups = 10
+stderr_logfile = {{ log_dir }}/{{ supervisor_name }}/stderr.log
+std_err_logfile_maxbytes = 50MB
+std_err_logfile_backups = 10

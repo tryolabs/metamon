@@ -1,0 +1,19 @@
+---
+- name: ensure Nginx PPA repo
+  apt_repository: repo=ppa:nginx/stable state=present
+
+- name: install Nginx
+  apt: name=nginx-extras state=present
+  notify:
+    - restart nginx
+
+- name: ensure nginx service is stopped
+  service: name=nginx state=stopped
+
+- include: ../../../common/tasks/supervisor_service.yml
+           service_type=apt
+           role=nginx
+           system_service_name=nginx
+           service_name=nginx
+           supervisor_name=nginx
+           add_service_user=Y

@@ -1,0 +1,34 @@
+#
+#  Handlers for services running under supervisord.
+#
+#  See the comment on supervisor_service.yml but on tasks.
+#
+#  Expects the following variables:
+#
+#    * supervisor_name: desired name of the service in supervisor (for
+#                       example "gunicorn").
+#
+
+- name: ensure supervisord service is started
+  service: name=supervisord state=started
+
+  # This will actually make supervisorctl stop the process running with the
+  # old config file, and reload the config file.
+  # However, it will not start the process under the new config file, so
+  # we have to do it manually.
+- name: run supervisorctl update
+  command: supervisorctl update
+  notify:
+    - ensure {{ supervisor_name }} is started
+
+- name: ensure {{ supervisor_name }} is present in supervisor
+  supervisorctl: name={{ supervisor_name }} state=present
+
+- name: ensure {{ supervisor_name }} is started
+  supervisorctl: name={{ supervisor_name }} state=started
+  register: just_started_service
+
+# Restart a service if not just started
+- name: restart {{ supervisor_name }}
+  supervisorctl: name={{ supervisor_name }} state=restarted
+  when: just_started_service is not defined or not just_started_service.changed

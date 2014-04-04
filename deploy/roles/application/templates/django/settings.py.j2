@@ -1,0 +1,154 @@
+"""
+THIS IS AN AUTO-GENERATED FILE. CHANGES YOU MAKE HERE WILL BE OVERWRITTEN
+IF YOU WANT TO INTRIDUCE MODIFICATIONS EDIT THE settings.py.j2 FILE
+LOCATED IN THE deploy/roles/application/templates/django DIRECTORY.
+"""
+
+import os
+from datetime import timedelta
+
+# The base dir is the parent of the directory. If we were to change the inner
+# dirname to abspath we would have to append "..".
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+SITE_ID = 1
+SECRET_KEY = "{{ secret_key }}"
+
+DEBUG = {{ django_enable_debug }}
+TEMPLATE_DEBUG = {{ django_enable_debug }}
+
+# django will recursively search in directories for other template folders
+TEMPLATE_DIRS = (os.path.join(BASE_DIR, 'templates'),)
+
+ALLOWED_HOSTS = []
+ROOT_URLCONF = '{{ project_name }}.urls'
+
+WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
+
+# Installed apps
+DEFAULT_APPS = (
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.staticfiles',
+    'django.contrib.humanize',
+)
+
+FIRST_PARTY_APPS = (
+    '{{ project_name }}',
+)
+
+THIRD_PARTY_APPS = (
+{% if use_gunicorn|default(False) %}
+    'gunicorn',
+{% endif %}
+)
+
+INSTALLED_APPS = DEFAULT_APPS + FIRST_PARTY_APPS + THIRD_PARTY_APPS
+
+
+# Middleware classes
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+)
+
+
+#Template context processors
+DEFAULT_TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.contrib.messages.context_processors.messages",
+{% if django_enable_debug %}
+    "django.core.context_processors.debug",
+{% endif %}
+)
+
+CUSTOM_TEMPLATE_CONTEXT_PROCESSORS = ()
+
+TEMPLATE_CONTEXT_PROCESSORS = DEFAULT_TEMPLATE_CONTEXT_PROCESSORS + CUSTOM_TEMPLATE_CONTEXT_PROCESSORS
+
+
+# Static file configuration
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+
+
+# Media files configuration
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+
+# Database configuration
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.{{ settings_dbbackend }}',
+        'NAME': '{{ settings_dbname }}',
+{% if settings_dbbackend != 'sqlite3' %}
+        'USER': '{{ settings_dbuser }}',
+        'PASSWORD': '{{ settings_dbpassword }}',
+        'HOST': '{{ settings_dbhost }}',
+        'PORT': '{{ settings_dbport }}',
+{% endif %}
+    }
+}
+
+#  Optimizes read heavy PG workload, install only if PG
+if '{{ settings_dbbackend }}' == 'postgresql_psycopg2':
+    DATABASES['default']['OPTIONS'] = {'autocommit': True}
+
+# Internationalization
+LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'UTC'
+USE_I18N = False
+USE_L10N = False
+USE_TZ = True
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': [],
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['null'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    }
+}

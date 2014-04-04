@@ -1,0 +1,60 @@
+"""
+THIS IS AN AUTO-GENERATED FILE. CHANGES YOU MAKE HERE WILL BE OVERWRITTEN
+IF YOU WANT TO INTRIDUCE MODIFICATIONS EDIT THE settings_test.py.j2 FILE
+LOCATED IN THE deploy/roles/application/templates/django DIRECTORY.
+"""
+
+import os
+import logging
+
+from {{ project_name }}.settings import *
+
+DATABASES['default'] = {'ENGINE': 'django.db.backends.{{ django_test_db_backend }}'}
+PASSWORD_HASHERS = (
+    '{{ django_test_password_hasher }}',
+)
+
+DEFAULT_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.messages',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+)
+
+FIRST_PARTY_APPS = (
+    '{{ project_name }}',
+)
+
+THIRD_PARTY_APPS = (
+)
+
+INSTALLED_APPS = DEFAULT_APPS + FIRST_PARTY_APPS + THIRD_PARTY_APPS
+
+
+MIDDLEWARE_CLASSES = (
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+)
+
+DEBUG = {{ django_test_disable_debug }}
+TEMPLATE_DEBUG = {{ django_test_disable_debug }}
+
+{% if django_test_disable_logging %}
+logging.disable(logging.CRITICAL)
+{% endif %}
+
+{% if django_test_enable_coverage %}
+TEST_RUNNER = 'django_coverage.coverage_runner.CoverageRunner'
+
+COVERAGE_MODULE_EXCLUDES = ['__init__',
+                            'django', 'migrations', 'management', 'locale$', 'static',
+                            'settings$', 'settings_test$', 'templates$',
+                            'tests$',
+                            'fixtures',
+                            'urls$', 'wsgi$']
+
+COVERAGE_BADGE_TYPE = None
+{% endif %}

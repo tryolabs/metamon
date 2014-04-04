@@ -1,0 +1,26 @@
+---
+- name: configuration check
+  hosts: all
+  tasks:
+    - name: configuration check
+      fail: msg="not all settings are properly defined"
+      when: project_name|default('') == '' or secret_key|default('') == ''
+
+# Common configuration for all machines
+- name: apply common configuration to all nodes
+  sudo: yes
+  hosts: all
+  gather_facts: no
+  roles:
+    - common
+
+
+# Development Machines
+- name: configure and deploy the development environment
+  sudo: yes
+  hosts: vagrant
+  gather_facts: no
+  roles:
+    - dbserver
+    - gunicorn
+    - nginx

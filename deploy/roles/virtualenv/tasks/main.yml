@@ -1,0 +1,66 @@
+---
+#
+# Installation of requirements.txt in virtualenv
+#
+
+- name: system-wide install of virtualenv and virtualenvwrapper
+  pip: name={{ item }} state=present
+  with_items:
+    - virtualenv
+    - virtualenvwrapper
+
+- name: Modify bashrc for virtualenvwrapper (1/2)
+  lineinfile: dest={{ home }}/.bashrc
+              regexp="^export WORKON_HOME"
+              line="export WORKON_HOME=$HOME/.virtualenvs"
+              state=present
+
+- name: Modify bashrc for virtualenvwrapper (2/2)
+  lineinfile: dest={{ home }}/.bashrc
+              regexp="^source /usr/local/bin/virtualenvwrapper.sh"
+              line="source /usr/local/bin/virtualenvwrapper.sh"
+              state=present
+
+- name: Modify bashrc to activate virtualenv on login
+  lineinfile: dest={{ home }}/.bashrc
+              regexp="^workon "
+              line="workon {{ project_name }}"
+              state=present
+  when: development
+
+- name: Modify bashrc to activate virtualenv on login
+  lineinfile: dest={{ home }}/.bashrc
+              regexp="^cd"
+              line="cd {{ django_manage_path }}"
+              state=present
+  when: development
+
+- name: copy application requirements.txt to {{ tmp }}
+  copy: src=requirements.txt dest={{ tmp }}/requirements.txt
+  sudo: no
+  when: install_application_requirements
+
+- name: install application requirements.txt to {{ virtualenv_dir }}
+  pip: requirements={{ tmp }}/requirements.txt virtualenv={{ virtualenv_dir }}
+  sudo: no
+  when: install_application_requirements
+
+- name: copy testing requirements.txt to {{ tmp }}
+  copy: src=test_requirements.txt dest={{ tmp }}/test_requirements.txt
+  sudo: no
+  when: install_testing_requirements
+
+- name: install testing requirements.txt to {{ virtualenv_dir }}
+  pip: requirements={{ tmp }}/test_requirements.txt virtualenv={{ virtualenv_dir }}
+  sudo: no
+  when: install_testing_requirements
+
+- name: copy dev requirements.txt to {{ tmp }}
+  copy: src=dev_requirements.txt dest={{ tmp }}/dev_requirements.txt
+  sudo: no
+  when: install_development_requirements
+
+- name: install dev requirements.txt to {{ virtualenv_dir }}
+  pip: requirements={{ tmp }}/dev_requirements.txt virtualenv={{ virtualenv_dir }}
+  sudo: no
+  when: install_development_requirements

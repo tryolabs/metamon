@@ -1,0 +1,32 @@
+---
+- name: install postgresql-client
+  apt: name=postgresql-client update_cache=yes state=present
+
+- name: remove pyc files
+  shell: find {{ repo_dir }} -iname "*.pyc" -exec rm -f {} \;
+
+- name: check if the project exists
+  stat: path={{ django_manage_path }}
+  register: project_path
+  when: create_project
+
+- name: create django project
+  shell: '{{ virtualenv_bin_dir }}/python {{ virtualenv_bin_dir }}/django-admin.py startproject {{ project_name }} chdir={{ repo_dir }}'
+  when: create_project and not project_path.stat.exists
+
+- name: generate django settings
+  template: src=django/settings.py.j2
+            dest={{ django_settings_path }} mode=644
+
+- name: generate django test settings
+  template: src=django/settings_test.py.j2
+            dest={{ django_settings_test_path }} mode=644
+
+- name: create django logs directory
+  file: path={{ django_log_directory }} owner={{ user }} mode=755 state=directory
+
+- name: prepare the database
+  command: /bin/true
+  notify:
+    - run syncdb
+    - run migrations

@@ -1,0 +1,11 @@
+---
+- include: ../../../common/handlers/supervisor_service.yml
+           service_name=gunicorn
+           supervisor_name=gunicorn
+
+- name: run collectstatic
+  django_manage: command=collectstatic
+                 app_path={{ repo_dir }}/{{ project_name }}
+                 settings={{ django_settings_python_path }}
+                 virtualenv={{ virtualenv_dir }}
+  sudo: no

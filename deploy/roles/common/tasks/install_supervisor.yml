@@ -1,0 +1,24 @@
+- name: system-wide install of supervisor
+  pip: name=supervisor state=present
+  notify:
+    - reload supervisor service
+
+- name: create system supervisord's initd script
+  template: src=supervisor/supervisord.sh.j2 dest=/etc/init.d/supervisord mode=744
+  notify:
+    - reload supervisor service
+
+- name: create system supervisord's conf for initd
+  template: src=supervisor/supervisord.conf.j2 dest={{ supervisor_initd_conf }}
+  notify:
+    - reload supervisor service
+
+- name: create folder for service inits for supervisor launched processes
+  file: dest={{ supervisor_init_dir }} state=directory
+
+- name: create folder for service confs for supervisor launched processes
+  file: dest={{ supervisor_conf_dir }} state=directory
+
+- name: start system supervisord service and have it run during system startup
+  service: name=supervisord state=started enabled=yes
+  register: first_started_supervisor_service

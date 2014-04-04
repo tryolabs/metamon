@@ -1,0 +1,13 @@
+[program:{{ supervisor_name }}]
+command=/usr/lib/postgresql/9.3/bin/postgres -c config_file={{ supervisor_conf_dir }}/{{ supervisor_name }}.conf
+user = {{ run_as_user|default(supervisor_name) }}
+stopsignal=INT
+autorestart = false
+autostart = false
+numprocs = 1
+stopwaitsecs = 10
+startsecs = 10
+priority = 1
+startretries = 3
+redirect_stderr = True
+stdout_logfile = {{ log_dir }}/{{ supervisor_name }}/stdout.log
