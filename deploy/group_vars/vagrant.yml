@@ -2,7 +2,6 @@
 ansible_ssh_user: vagrant
 user: "{{ ansible_ssh_user }}"
 
-home: /home/{{ user }}
 repo_dir: /vagrant
 
 development: Yes
@@ -12,7 +11,7 @@ django_enable_debug: True
 
 # Database settings
 settings_postgresql_listen_address: "0.0.0.0"
-settings_postgresql_enable_outside_access: False
+settings_postgresql_enable_outside_access: True
 
 # Gunicorn settings
 settings_gunicorn_bind_addr: 0.0.0.0

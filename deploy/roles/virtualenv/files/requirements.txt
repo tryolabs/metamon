@@ -2,5 +2,4 @@ Django==1.6
 psycopg2==2.5.1
 
 argparse==1.2.1
-djangorestframework==2.3.13
 wsgiref==0.1.2

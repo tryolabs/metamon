@@ -3,16 +3,8 @@
   hosts: all
   tasks:
     - name: configuration check
-      fail: msg="not all settings are properly defined"
+      fail: msg="Make sure project_name and secret_key are correctly defined"
       when: project_name|default('') == '' or secret_key|default('') == ''
-
-# Common configuration for all machines
-- name: apply common configuration to all nodes
-  sudo: yes
-  hosts: all
-  gather_facts: no
-  roles:
-    - common
 
 
 # Development Machines

@@ -28,7 +28,7 @@
               state=present
   when: development
 
-- name: Modify bashrc to activate virtualenv on login
+- name: Modify bashrc to go to manage directory on login
   lineinfile: dest={{ home }}/.bashrc
               regexp="^cd"
               line="cd {{ django_manage_path }}"
