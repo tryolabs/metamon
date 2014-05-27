@@ -1,89 +1,20 @@
+tmp: /tmp
+home: /home/{{ user }}
+log_dir: /var/log
+
 project_name: ""
+secret_key: ""
 
 ansible_ssh_user: ubuntu
 user: "{{ ansible_ssh_user }}"
 
 development: No
-
 create_project: Yes
 
-# Supervisor variables
-supervisor_init_dir: /etc/supervisord.d
-supervisor_conf_dir: /etc/supervisord
-supervisor_initd_conf: /etc/supervisord.conf
-
-# Paths
-tmp: /tmp
-home: /home/{{ user }}
-log_dir: /var/log
-
-# Group for each service type
-services_user_groups:
-  apt: adm
-  non-apt: adm
-  django: www-data
-
-# Virtualenv
-virtualenv_dir: "{{ home }}/.virtualenvs/{{ project_name }}"
-virtualenv_bin_dir: "{{ virtualenv_dir }}/bin"
-
-#install_supervisor: True
+# Disable Debug by default
 django_enable_debug: False
-
-# Database
-settings_dbname: "{{ project_name }}"
-settings_dbuser: "{{ project_name }}"
-settings_dbpassword: "{{ project_name }}"
-settings_dbbackend: postgresql_psycopg2
-settings_dbhost: localhost
-settings_dbport: 5432
-
-# Variables for dbserever
-settings_postgresql_port: 5432
-settings_postgresql_listen_address: "localhost"
-settings_postgresql_connections: 25
-settings_postgresql_workmem: 1MB
-settings_postgresql_shared_buffers: 24MB
-settings_postgresql_random_page_cost: 4
-settings_postgresql_effective_cache_size: 128MB
-settings_postgresql_log_min_duration: 100
-settings_postgresql_data_dir: /var/lib/postgresql/9.3/main
-settings_postgresql_enable_outside_access: False
-
-# Settings for Gunicorn
-settings_gunicorn_keepalive: True
-settings_gunicorn_port: 9000
-settings_gunicorn_bind_addr: localhost
-settings_gunicorn_num_workers: 5
-settings_gunicorn_keepalive: 1
-
-django_settings_base: settings
-django_settings_path: "{{ repo_dir }}/{{ project_name }}/{{ project_name }}/{{ django_settings_base }}.py"
-django_settings_test_path: "{{ repo_dir }}/{{ project_name }}/{{ project_name }}/{{ django_settings_base }}_test.py"
-django_settings_python_path: "{{ project_name }}.{{ django_settings_base }}"
-django_settings_template_name: "{{ django_settings_base }}.py.j2"
-
-# Django_settings
-django_manage_path: "{{ repo_dir }}/{{ project_name }}"
-
-secret_key: ""
-
-django_log_directory: "{{ log_dir }}/django"
-
-enable_migrations: no
-
-django_test_db_backend: sqlite3
-django_test_email_backend: django.core.mail.backends.locmem.EmailBackend
-django_test_password_hasher: django_plainpasswordhasher.PlainPasswordHasher
-django_test_disable_debug: True
-django_test_disable_logging: True
-django_test_enable_coverage: True
-django_test_lock_account_after: 2
 
 # Requirements
 install_application_requirements: Yes
 install_testing_requirements: No
 install_development_requirements: No
-
-# Nginx CORS settings
-cors_allow_url: "*"

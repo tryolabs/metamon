@@ -1,0 +1,9 @@
+supervisor_init_dir: /etc/supervisord.d
+supervisor_conf_dir: /etc/supervisord
+supervisor_initd_conf: /etc/supervisord.conf
+
+# Group for each service type
+services_user_groups:
+  apt: adm
+  non-apt: adm
+  django: www-data

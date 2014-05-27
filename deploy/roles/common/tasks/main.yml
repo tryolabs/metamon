@@ -6,8 +6,6 @@
     - python-dev
     - python-setuptools
     - python-software-properties
-    - libpq-dev
-    - libxslt1-dev
     - unzip
     - ssl-cert
 

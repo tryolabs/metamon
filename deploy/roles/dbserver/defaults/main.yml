@@ -1,0 +1,10 @@
+settings_postgresql_port: 5432
+settings_postgresql_listen_address: "localhost"
+settings_postgresql_connections: 25
+settings_postgresql_workmem: 1MB
+settings_postgresql_shared_buffers: 24MB
+settings_postgresql_random_page_cost: 4
+settings_postgresql_effective_cache_size: 128MB
+settings_postgresql_log_min_duration: 100
+settings_postgresql_data_dir: /var/lib/postgresql/9.3/main
+settings_postgresql_enable_outside_access: False

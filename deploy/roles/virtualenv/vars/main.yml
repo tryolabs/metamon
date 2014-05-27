@@ -1,0 +1,6 @@
+virtualenv_dir: "{{ home }}/.virtualenvs/{{ project_name }}"
+virtualenv_bin_dir: "{{ virtualenv_dir }}/bin"
+
+install_application_requirements: Yes
+install_testing_requirements: Yes
+install_development_requirements: Yes

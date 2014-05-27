@@ -1,0 +1,2 @@
+# Nginx CORS settings
+cors_allow_url: "*"
