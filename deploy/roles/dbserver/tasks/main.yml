@@ -10,9 +10,6 @@
 - name: system-wide install of psycopg2
   pip: name=psycopg2 state=present
 
-- name: ensure PostgreSQL PPA repo
-  apt_repository: repo=ppa:chris-lea/postgresql-9.3  state=present
-
 - name: install PostgreSQL
   apt: pkg={{ item }} update_cache=yes state=present
   with_items:
@@ -20,6 +17,7 @@
     - postgresql-server-dev-9.3
     - postgresql-client-9.3
     - postgresql-plpython-9.3
+    - postgresql-contrib-9.3
   notify:
     - restart postgresql
 
