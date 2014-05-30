@@ -55,7 +55,7 @@ All of this can be changed by editing `Vagrantfile`.
 
 #### Requirements
 The requirements for the Django application will also be installed automatically, however, they are split into three different files. There are also settings that define which requirement files are used during installation. All requirements files are under the `/deploy/roles/virtualenv/files/` directory.
-* `requirements.txt` should hold the packages needed to run the Django application. Installation is marked by `install_application_requirements` and it automatically set for all hosts. It's probbaly a bad idea to set it to `No`.
+* `requirements.txt` should hold the packages needed to run the Django application. Installation is marked by `install_application_requirements` and it automatically set for all hosts. It's probably a bad idea to set it to `No`.
 * `test_requirements.txt` should hold packages needed for running unit tests but not required by the application. installation is marked by `install_testing_requirements` and it is automatically set to `Yes` on vagrant only.
 * `dev_requirements.txt` should hold packages needed only when developing (ipdb for example). Installation is marked by `install_development_requirements` and it is automatically set to `Yes` on vagrant only.
 
