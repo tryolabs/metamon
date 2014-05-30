@@ -7,9 +7,6 @@
   with_items:
     - libpq-dev
 
-- name: system-wide install of psycopg2
-  pip: name=psycopg2 state=present
-
 - name: install PostgreSQL
   apt: pkg={{ item }} update_cache=yes state=present
   with_items:

@@ -2,8 +2,41 @@
 - name: install postgresql-client
   apt: name=postgresql-client update_cache=yes state=present
 
+- name: system-wide install of psycopg2
+  pip: name=psycopg2 state=present
+
 - name: remove pyc files
   shell: find {{ repo_dir }} -iname "*.pyc" -exec rm -f {} \;
+
+- name: copy application requirements.txt to {{ tmp }}
+  copy: src=requirements.txt dest={{ tmp }}/requirements.txt
+  sudo: no
+  when: install_application_requirements
+
+- name: install application requirements.txt to {{ virtualenv_dir }}
+  pip: requirements={{ tmp }}/requirements.txt virtualenv={{ virtualenv_dir }}
+  sudo: no
+  when: install_application_requirements
+
+- name: copy testing requirements.txt to {{ tmp }}
+  copy: src=test_requirements.txt dest={{ tmp }}/test_requirements.txt
+  sudo: no
+  when: install_testing_requirements
+
+- name: install testing requirements.txt to {{ virtualenv_dir }}
+  pip: requirements={{ tmp }}/test_requirements.txt virtualenv={{ virtualenv_dir }}
+  sudo: no
+  when: install_testing_requirements
+
+- name: copy dev requirements.txt to {{ tmp }}
+  copy: src=dev_requirements.txt dest={{ tmp }}/dev_requirements.txt
+  sudo: no
+  when: install_development_requirements
+
+- name: install dev requirements.txt to {{ virtualenv_dir }}
+  pip: requirements={{ tmp }}/dev_requirements.txt virtualenv={{ virtualenv_dir }}
+  sudo: no
+  when: install_development_requirements
 
 - name: check if the project exists
   stat: path={{ django_manage_path }}

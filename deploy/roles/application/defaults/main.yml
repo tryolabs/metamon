@@ -1,3 +1,8 @@
+# Dependency installation
+install_application_requirements: Yes
+install_testing_requirements: Yes
+install_development_requirements: Yes
+
 # General Sjango Settings
 django_manage_path: "{{ repo_dir }}/{{ project_name }}"
 

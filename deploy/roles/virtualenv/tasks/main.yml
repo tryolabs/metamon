@@ -34,33 +34,3 @@
               line="cd {{ django_manage_path }}"
               state=present
   when: development
-
-- name: copy application requirements.txt to {{ tmp }}
-  copy: src=requirements.txt dest={{ tmp }}/requirements.txt
-  sudo: no
-  when: install_application_requirements
-
-- name: install application requirements.txt to {{ virtualenv_dir }}
-  pip: requirements={{ tmp }}/requirements.txt virtualenv={{ virtualenv_dir }}
-  sudo: no
-  when: install_application_requirements
-
-- name: copy testing requirements.txt to {{ tmp }}
-  copy: src=test_requirements.txt dest={{ tmp }}/test_requirements.txt
-  sudo: no
-  when: install_testing_requirements
-
-- name: install testing requirements.txt to {{ virtualenv_dir }}
-  pip: requirements={{ tmp }}/test_requirements.txt virtualenv={{ virtualenv_dir }}
-  sudo: no
-  when: install_testing_requirements
-
-- name: copy dev requirements.txt to {{ tmp }}
-  copy: src=dev_requirements.txt dest={{ tmp }}/dev_requirements.txt
-  sudo: no
-  when: install_development_requirements
-
-- name: install dev requirements.txt to {{ virtualenv_dir }}
-  pip: requirements={{ tmp }}/dev_requirements.txt virtualenv={{ virtualenv_dir }}
-  sudo: no
-  when: install_development_requirements
