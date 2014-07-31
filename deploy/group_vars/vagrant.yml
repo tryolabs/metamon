@@ -2,7 +2,8 @@
 ansible_ssh_user: vagrant
 user: "{{ ansible_ssh_user }}"
 
-repo_dir: /vagrant
+pull_repo: No
+code_dir: /vagrant
 
 development: Yes
 
