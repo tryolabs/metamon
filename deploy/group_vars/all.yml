@@ -11,6 +11,9 @@ user: "{{ ansible_ssh_user }}"
 development: No
 create_project: Yes
 
+pull_repo: No
+repo_url: ""
+
 # Disable Debug by default
 django_enable_debug: False
 

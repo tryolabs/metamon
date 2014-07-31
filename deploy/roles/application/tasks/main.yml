@@ -6,7 +6,7 @@
   pip: name=psycopg2 state=present
 
 - name: remove pyc files
-  shell: find {{ repo_dir }} -iname "*.pyc" -exec rm -f {} \;
+  shell: find {{ code_dir }} -iname "*.pyc" -exec rm -f {} \;
 
 - name: copy application requirements.txt to {{ tmp }}
   copy: src=requirements.txt dest={{ tmp }}/requirements.txt
@@ -41,11 +41,15 @@
 - name: check if the project exists
   stat: path={{ django_manage_path }}
   register: project_path
-  when: create_project
+  when: create_project and not pull_repo
 
 - name: create django project
-  shell: '{{ virtualenv_bin_dir }}/python {{ virtualenv_bin_dir }}/django-admin.py startproject {{ project_name }} chdir={{ repo_dir }}'
-  when: create_project and not project_path.stat.exists
+  shell: '{{ virtualenv_bin_dir }}/python {{ virtualenv_bin_dir }}/django-admin.py startproject {{ project_name }} chdir={{ code_dir }}'
+  when: create_project and not pull_repo and not project_path.stat.exists
+
+- name: Pull git repository
+  git: dest={{ code_dir }} repo={{ repo_url }} accept_hostkey=yes version={{ repo_version }}
+  when: pull_repo
 
 - name: generate django settings
   template: src=django/settings.py.j2

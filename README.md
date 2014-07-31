@@ -46,11 +46,14 @@ Configuration and Customization
 ### Configuration
 There are two values on `all.yml` that need to be set before the Playbooks can be run. `project_name` needs to be given the project's name. It will be used for finding the directory containing the Django project (or to create it) and used for pointing to some of the modules (for example urls). `secret_key` needs to also be set and is used in Django's settings file in `SECRET_KEY`.
 
+If `pull_repo` is defined then `repo_url` must be defined. By default, the `master` branch will be used.
+
 #### Vagrant
 By default, Vagrant will provide a machine called `dev` that can be reached at `192.168.50.10`. Several ports are forwarded:
 * `80` to `8080` (for Nginx).
 * `8000` to `8000`.
 * `9000` to `9000` (for Gunicorn).
+
 All of this can be changed by editing `Vagrantfile`.
 
 #### Requirements
@@ -70,8 +73,8 @@ TODO
 
 - [x] Support Ubuntu 14.04.
 - [x] Refactor variables by moving them to their corresponding roles.
+- [x] Pull repository instead of creating the project (or adding it manually).
 - [ ] Create a script to run tests based on a template.
 - [ ] Add a small wizard that can customize `Vagrantfile` settings as well as `project_name` and `secret_key`.
-- [ ] Pull repository instead of creating the project (or adding it manually).
 - [ ] ZSH for development.
 - [ ] Optionally create a sphinx project for documentation.

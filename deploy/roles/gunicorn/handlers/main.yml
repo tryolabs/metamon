@@ -5,7 +5,7 @@
 
 - name: run collectstatic
   django_manage: command=collectstatic
-                 app_path={{ repo_dir }}/{{ project_name }}
+                 app_path={{ code_dir }}/{{ project_name }}
                  settings={{ django_settings_python_path }}
                  virtualenv={{ virtualenv_dir }}
   sudo: no
