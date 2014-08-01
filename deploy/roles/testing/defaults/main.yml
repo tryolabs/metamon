@@ -1,0 +1,10 @@
+django_settings_test_path: "{{ code_dir }}/{{ project_name }}/{{ project_name }}/{{ django_settings_base }}_test.py"
+
+# Django Test Settings
+django_test_db_backend: sqlite3
+django_test_email_backend: django.core.mail.backends.locmem.EmailBackend
+django_test_password_hasher: django_plainpasswordhasher.PlainPasswordHasher
+django_test_disable_debug: True
+django_test_disable_logging: True
+django_test_enable_coverage: True
+django_test_lock_account_after: 2

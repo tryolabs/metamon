@@ -20,3 +20,5 @@
     - dbserver
     - gunicorn
     - nginx
+    - development
+    - testing

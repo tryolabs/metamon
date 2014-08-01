@@ -50,11 +50,18 @@ logging.disable(logging.CRITICAL)
 TEST_RUNNER = 'django_coverage.coverage_runner.CoverageRunner'
 
 COVERAGE_MODULE_EXCLUDES = ['__init__',
-                            'django', 'migrations', 'management', 'locale$', 'static',
-                            'settings$', 'settings_test$', 'templates$',
+
+                            'django',
+                            'migrations',
+                            'management',
+
+                            'locale$',
                             'tests$',
-                            'fixtures',
-                            'urls$', 'wsgi$']
+                            'settings$',
+                            'settings_test$',
+
+                            'urls$',
+                            'wsgi$']
 
 COVERAGE_BADGE_TYPE = None
 {% endif %}

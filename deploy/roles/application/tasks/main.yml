@@ -11,32 +11,10 @@
 - name: copy application requirements.txt to {{ tmp }}
   copy: src=requirements.txt dest={{ tmp }}/requirements.txt
   sudo: no
-  when: install_application_requirements
 
 - name: install application requirements.txt to {{ virtualenv_dir }}
   pip: requirements={{ tmp }}/requirements.txt virtualenv={{ virtualenv_dir }}
   sudo: no
-  when: install_application_requirements
-
-- name: copy testing requirements.txt to {{ tmp }}
-  copy: src=test_requirements.txt dest={{ tmp }}/test_requirements.txt
-  sudo: no
-  when: install_testing_requirements
-
-- name: install testing requirements.txt to {{ virtualenv_dir }}
-  pip: requirements={{ tmp }}/test_requirements.txt virtualenv={{ virtualenv_dir }}
-  sudo: no
-  when: install_testing_requirements
-
-- name: copy dev requirements.txt to {{ tmp }}
-  copy: src=dev_requirements.txt dest={{ tmp }}/dev_requirements.txt
-  sudo: no
-  when: install_development_requirements
-
-- name: install dev requirements.txt to {{ virtualenv_dir }}
-  pip: requirements={{ tmp }}/dev_requirements.txt virtualenv={{ virtualenv_dir }}
-  sudo: no
-  when: install_development_requirements
 
 - name: check if the project exists
   stat: path={{ django_manage_path }}
@@ -54,10 +32,6 @@
 - name: generate django settings
   template: src=django/settings.py.j2
             dest={{ django_settings_path }} mode=644
-
-- name: generate django test settings
-  template: src=django/settings_test.py.j2
-            dest={{ django_settings_test_path }} mode=644
 
 - name: create django logs directory
   file: path={{ django_log_directory }} owner={{ user }} mode=755 state=directory
