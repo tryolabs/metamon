@@ -16,8 +16,3 @@ repo_url: ""
 
 # Disable Debug by default
 django_enable_debug: False
-
-# Requirements
-install_application_requirements: Yes
-install_testing_requirements: No
-install_development_requirements: No

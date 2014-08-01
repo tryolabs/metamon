@@ -1,0 +1,16 @@
+---
+- name: copy testing requirements.txt to {{ tmp }}
+  copy: src=test_requirements.txt dest={{ tmp }}/test_requirements.txt
+  sudo: no
+
+- name: install testing requirements.txt to {{ virtualenv_dir }}
+  pip: requirements={{ tmp }}/test_requirements.txt virtualenv={{ virtualenv_dir }}
+  sudo: no
+
+- name: generate django test settings
+  template: src=django/settings_test.py.j2
+            dest={{ django_settings_test_path }} mode=644
+
+- name: geneate script to run tests
+  template: src=scripts/run_tests.sh.j2
+            dest={{ django_manage_path }}/run_tests.sh mode=744

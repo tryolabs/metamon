@@ -1,0 +1,2 @@
+virtualenv_on_login: Yes
+install_development_requirements: Yes
