@@ -1,0 +1,11 @@
+- name: Modify bashrc to activate virtualenv on login
+  lineinfile: dest={{ home }}/.profile
+              regexp="^workon "
+              line="workon {{ project_name }}"
+              state=present
+
+- name: Modify bashrc to go to manage directory on login
+  lineinfile: dest={{ home }}/.profile
+              regexp="^cd"
+              line="cd {{ django_manage_path }}"
+              state=present

@@ -6,13 +6,13 @@
     - virtualenvwrapper
 
 - name: Modify bashrc for virtualenvwrapper (1/2)
-  lineinfile: dest={{ home }}/.bashrc
+  lineinfile: dest={{ home }}/.profile
               regexp="^export WORKON_HOME"
               line="export WORKON_HOME=$HOME/.virtualenvs"
               state=present
 
 - name: Modify bashrc for virtualenvwrapper (2/2)
-  lineinfile: dest={{ home }}/.bashrc
+  lineinfile: dest={{ home }}/.profile
               regexp="^source /usr/local/bin/virtualenvwrapper.sh"
               line="source /usr/local/bin/virtualenvwrapper.sh"
               state=present

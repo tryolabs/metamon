@@ -1,0 +1,19 @@
+- name: install ZSH
+  apt: pkg=zsh state=present
+  sudo: Yes
+
+- name: clone oh-my-zsh
+  git: repo=https://github.com/robbyrussell/oh-my-zsh
+       dest={{ home }}/.oh-my-zsh
+
+- name: copy ZSH Configuration
+  copy: src=.zshrc
+        dest={{ home }}/.zshrc
+  sudo: No
+
+- name: switch to ZSH
+  user: name={{ user }}
+        shell=/usr/bin/zsh
+  sudo: Yes
+
+
