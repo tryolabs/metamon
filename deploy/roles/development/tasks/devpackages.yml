@@ -1,0 +1,14 @@
+- name: copy dev requirements.txt to {{ tmp }}
+  copy: src=dev_requirements.txt
+        dest={{ tmp }}/dev_requirements.txt
+  sudo: No
+
+- name: install dev requirements.txt to {{ virtualenv_dir }}
+  pip: requirements={{ tmp }}/dev_requirements.txt
+       virtualenv={{ virtualenv_dir }}
+  sudo: No
+
+- name: install dev packages
+  apt: pkg={{ item }} state=present
+  with_items:
+    - htop

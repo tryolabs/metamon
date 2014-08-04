@@ -1,24 +1,12 @@
 ---
-- name: copy dev requirements.txt to {{ tmp }}
-  copy: src=dev_requirements.txt dest={{ tmp }}/dev_requirements.txt
-  sudo: no
-  when: install_development_requirements
+- name: Install development packages
+  include: devpackages.yml
+  when: install_development_packages
 
-- name: install dev requirements.txt to {{ virtualenv_dir }}
-  pip: requirements={{ tmp }}/dev_requirements.txt virtualenv={{ virtualenv_dir }}
-  sudo: no
-  when: install_development_requirements
-
-- name: Modify bashrc to activate virtualenv on login
-  lineinfile: dest={{ home }}/.bashrc
-              regexp="^workon "
-              line="workon {{ project_name }}"
-              state=present
+- name: Activate virtualenv on user Login
+  include: venv.yml
   when: virtualenv_on_login
 
-- name: Modify bashrc to go to manage directory on login
-  lineinfile: dest={{ home }}/.bashrc
-              regexp="^cd"
-              line="cd {{ django_manage_path }}"
-              state=present
-  when: virtualenv_on_login
+- name: Install ZSH and Oh My ZSH
+  include: zsh.yml
+  when: use_zsh

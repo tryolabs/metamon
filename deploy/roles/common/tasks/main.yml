@@ -12,4 +12,8 @@
 - name: ensure pip latest version
   command: easy_install pip
 
+- name: Make sure .profile exists
+  file: path={{ home }}/.profile
+        state=file
+
 - include: install_supervisor.yml

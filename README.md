@@ -78,6 +78,6 @@ TODO
 - [x] Pull repository instead of creating the project (or adding it manually).
 - [x] Create a script to run tests based on a template.
 - [x] Enhance documentation.
+- [x] ZSH for development.
 - [ ] Add a small wizard that can customize `Vagrantfile` settings as well as `project_name` and `secret_key`.
-- [ ] ZSH for development.
 - [ ] Optionally create a sphinx project for documentation.
