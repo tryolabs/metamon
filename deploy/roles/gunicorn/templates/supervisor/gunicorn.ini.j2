@@ -1,5 +1,5 @@
 [program:{{ supervisor_name }}]
-command = {{ virtualenv_bin_dir }}/python manage.py run_gunicorn --timeout=300 --keep-alive={{ settings_gunicorn_keepalive }} --workers={{ settings_gunicorn_num_workers }} --bind={{ settings_gunicorn_bind_addr }}:{{ settings_gunicorn_port }} --settings={{ django_settings_python_path }} --log-level DEBUG --access-logfile={{ log_dir }}/{{ supervisor_name }}/access.log --error-logfile={{ log_dir }}/{{ supervisor_name }}/error.log --name=gunicorn
+command = {{ virtualenv_bin_dir }}/gunicorn --env DJANGO_SETTINGS_MODULE={{ project_name}}.settings --config {{ supervisor_conf_dir }}/gunicorn.conf {{ project_name }}.wsgi
 autorestart = false
 autostart = false
 directory = {{ code_dir }}/{{ project_name }}

@@ -1,5 +1,10 @@
-settings_gunicorn_keepalive: True
-settings_gunicorn_port: 9000
+settings_gunicorn_name: gunicorn
+
 settings_gunicorn_bind_addr: localhost
-settings_gunicorn_num_workers: 5
+settings_gunicorn_port: 9000
+
+settings_gunicorn_timeout: 300
 settings_gunicorn_keepalive: 1
+settings_gunicorn_num_workers: 5
+
+settings_gunicorn_loglevel: DEBUG

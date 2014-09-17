@@ -1,6 +1,6 @@
 ---
 - name: install Gunucorn
-  pip: name=gunicorn version=18.0.0 virtualenv={{ virtualenv_dir }}
+  pip: name=gunicorn version={{ gunicorn_version }} virtualenv={{ virtualenv_dir }}
 
 - name: dummy task for gunicorn tasks when code changed
   command: /bin/true
@@ -9,7 +9,7 @@
     - run collectstatic
 
 - include: ../../../common/tasks/supervisor_service.yml
-           service_type=django
+           service_type=non-apt
            role=gunicorn
            service_name=gunicorn
            supervisor_name=gunicorn

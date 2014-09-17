@@ -1,0 +1,11 @@
+proc_name = "{{ settings_gunicorn_name }}"
+
+bind = "{{ settings_gunicorn_bind_addr }}:{{ settings_gunicorn_port }}"
+
+loglevel = "{{ settings_gunicorn_loglevel }}"
+accesslog = "{{ log_dir }}/{{ supervisor_name }}/access.log"
+errorlog = "{{ log_dir }}/{{ supervisor_name }}/error.log"
+
+keepalive = {{ settings_gunicorn_keepalive }}
+timeout = {{ settings_gunicorn_timeout }}
+workers = {{ settings_gunicorn_num_workers }}
