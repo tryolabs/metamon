@@ -39,5 +39,4 @@
 - name: prepare the database
   command: /bin/true
   notify:
-    - run syncdb
     - run migrations

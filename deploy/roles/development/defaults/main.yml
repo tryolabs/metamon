@@ -1,3 +1,5 @@
 use_zsh: Yes
 virtualenv_on_login: Yes
 install_development_packages: Yes
+
+enable_admin: Yes

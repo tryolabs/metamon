@@ -21,5 +21,3 @@ django_settings_base: settings
 django_settings_path: "{{ code_dir }}/{{ project_name }}/{{ project_name }}/{{ django_settings_base }}.py"
 django_settings_python_path: "{{ project_name }}.{{ django_settings_base }}"
 django_settings_template_name: "{{ django_settings_base }}.py.j2"
-
-enable_migrations: No
