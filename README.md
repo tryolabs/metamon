@@ -81,3 +81,4 @@ TODO
 - [x] ZSH for development.
 - [ ] Add a small wizard that can customize `Vagrantfile` settings as well as `project_name` and `secret_key`.
 - [ ] Optionally create a sphinx project for documentation.
+- [ ] Group tasks via tags so that faster and smaller deploys can be done.
