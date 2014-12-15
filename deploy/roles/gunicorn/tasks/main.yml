@@ -1,5 +1,5 @@
 ---
-- name: install Gunucorn
+- name: install Gunicorn
   pip: name=gunicorn version={{ gunicorn_version }} virtualenv={{ virtualenv_dir }}
 
 - name: dummy task for gunicorn tasks when code changed
