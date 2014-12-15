@@ -32,6 +32,11 @@ http {
         location /static/ {
             alias {{ code_dir }}/{{ project_name }}/static/;
             expires 0;
+
+{% if development %}
+            # fix for sendfile() on Vagant.
+            sendfile  off;
+{% endif %}
         }
 
         location / {

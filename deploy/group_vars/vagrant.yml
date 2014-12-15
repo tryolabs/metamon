@@ -5,6 +5,8 @@ user: "{{ ansible_ssh_user }}"
 pull_repo: No
 code_dir: /vagrant
 
+development: Yes
+
 # Django settings
 django_enable_debug: True
 
