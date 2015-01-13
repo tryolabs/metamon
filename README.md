@@ -36,8 +36,9 @@ Installation
 2. Download and install [Vagrant](https://www.vagrantup.com/downloads.html).
 3. Install [Ansible](http://www.ansible.com/home).
    1. Clone the [Ansible Repository](https://github.com/ansible/ansible).
-   2. Do `sudo make` and `sudo make install`.
-   3. Make sure you have all dependencies installed, run `pip install jinja2 PyYAML`.
+   2. Install Ansible submodules `git submodule update --init --recursive`
+   3. Do `sudo make` and `sudo make install`.
+   4. Make sure you have all dependencies installed, run `pip install jinja2 PyYAML`.
 4. Copy the Metamon files to your project's root directory, customize, and run. If you already have your code in there, no project should be created.
 
 
