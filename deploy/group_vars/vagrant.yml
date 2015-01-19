@@ -16,6 +16,5 @@ settings_postgresql_enable_outside_access: True
 
 # Gunicorn settings
 settings_gunicorn_bind_addr: 0.0.0.0
-settings_postgresql_enable_outside_access: True
 
 enable_admin: Yes
