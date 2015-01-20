@@ -17,7 +17,7 @@ Metamon is a Vagrantfile combined with a set of Ansible Playbooks which can be u
 
 
 ##Motivation
-Setting up a development environment when starting a new project always turns out to be a tiresome and time consuming task. Metamon is a collection of Anislbe Playbooks that aims to correct this by providing a standarized, automated and generic\* environment (both for development and production). This way projects can be started a lot faster by just being able to jump directly into development.
+Setting up a development environment when starting a new project always turns out to be a tiresome and time consuming task. Metamon is a collection of Ansible Playbooks that aims to correct this by providing a standarized, automated and generic\* environment (both for development and production). This way projects can be started a lot faster by just being able to jump directly into development.
 
 Although Metamon is easily extensible by adding new Ansible roles, it is a better fit for people who use Django + Gunicorn + Nginx + PostgreSQL.
 
