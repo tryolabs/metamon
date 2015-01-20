@@ -2,6 +2,11 @@ supervisor_init_dir: /etc/supervisord.d
 supervisor_conf_dir: /etc/supervisord
 supervisor_initd_conf: /etc/supervisord.conf
 
+lang: "en_US.utf8"
+lc_all: "en_US.utf8"
+lc_ctype: "en_US.utf8"
+lc_collate: "en_US.utf8"
+
 # Group for each service type
 services_user_groups:
   apt: adm

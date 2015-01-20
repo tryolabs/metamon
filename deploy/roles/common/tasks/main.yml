@@ -1,3 +1,6 @@
+- name: set system locale
+  command: update-locale LC_ALL={{ lc_all }} LANG={{ lang }} LC_CTYPE={{ lc_ctype }} LC_COLLATE={{ lc_collate }}
+
 - name: install essential packages
   apt: pkg={{ item }} update_cache=yes state=present
   with_items:
