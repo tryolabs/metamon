@@ -38,7 +38,7 @@ Metamon will:
 ... and more.
 
 ##Installation
-1. Donwload and install [Virtualbox](https://www.virtualbox.org/wiki/Downloads).
+1. Download and install [Virtualbox](https://www.virtualbox.org/wiki/Downloads).
 2. Download and install [Vagrant](https://www.vagrantup.com/downloads.html).
 3. Install [Ansible](http://www.ansible.com/home) with pip: `pip install ansible`.
 4. Copy the Metamon files to your project's root directory (or to a new one if you have not started yet) and customize.
