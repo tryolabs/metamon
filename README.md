@@ -42,12 +42,13 @@ Metamon will:
 2. Download and install [Vagrant](https://www.vagrantup.com/downloads.html).
 3. Install [Ansible](http://www.ansible.com/home) with pip: `pip install ansible`.
 4. Copy the Metamon files to your project's root directory (or to a new one if you have not started yet) and customize.
-5. Deploy a new virtual machine by running the `deploy_dev.sh` script in the `deploy` directory. If you already have your code in there, no project should be created.
+5. Create a new virtual machine by running `vagrant up` from your project's root directory.
+6. Deploy a new virtual machine by running the `deploy_dev.sh` script in the `deploy` directory. If you already have your code in there, no project should be created.
 
 
 ##Configuration and Customization
 ### Configuration
-There are two values on `all.yml` that need to be set before the Playbooks can be run. `project_name` needs to be given the project's name. It will be used for finding the directory containing the Django project (or to create it) and used for pointing to some of the modules (for example urls). `secret_key` needs to also be set and is used in Django's settings file in `SECRET_KEY`.
+In the `deploy/group_vars` directory are two values on `all.yml` that need to be set before the Playbooks can be run. `project_name` needs to be given the project's name. It will be used for finding the directory containing the Django project (or to create it) and used for pointing to some of the modules (for example urls). `secret_key` needs to also be set and is used in Django's settings file in `SECRET_KEY`.
 
 If `pull_repo` is defined then `repo_url` must be defined. By default, the `master` branch will be used.
 
