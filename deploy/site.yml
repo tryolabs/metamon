@@ -7,7 +7,7 @@
       when: project_name|default('') == '' or secret_key|default('') == ''
 
     - name: project settings check (2/2)
-      fail: msg="Make sure the project i either created or the repo pulled"
+      fail: msg="Make sure the project is either created or the repo pulled"
       when: not (pull_repo and repo_url) and not create_project
 
 
