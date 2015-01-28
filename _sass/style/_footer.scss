@@ -1,0 +1,12 @@
+/* Style for the footer */
+
+footer {
+  background: $footer-background;
+
+  font-family: $footer-text-font;
+
+  a {
+    color: $link-color;
+    text-decoration: none;
+  }
+}

@@ -3,6 +3,11 @@
 .page-content {
   font-family: $page-text-font;
 
+  a {
+    color: $link-color;
+    text-decoration: none;
+  }
+
   p {
     line-height: 22px;
   }

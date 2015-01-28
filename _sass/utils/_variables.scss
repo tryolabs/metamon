@@ -1,13 +1,19 @@
 /* Sass variables */
 
+$page-text-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$page-code-font: monospace;
+
 $navbar-height: 60px;
 $navbar-background: #e74c3c;
 $navbar-link-color: white;
+$navbar-link-font: $page-text-font;
 
 $logo-background: $navbar-background;
 $logo-text-color: $navbar-link-color;
 
 $page-heading-border: 1px solid #eee;
 
-$page-text-font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-$page-code-font: monospace;
+$footer-background: #f9f9f9;
+$footer-text-font: $page-text-font;
+
+$link-color: #3498db;
