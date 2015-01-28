@@ -1,6 +1,6 @@
 ---
 title: Roles
-layout: default
+layout: page
 ---
 
 # Roles

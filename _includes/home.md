@@ -1,14 +1,3 @@
----
-title: Metamon
-layout: default
----
-
-<header>
-  <pre class="logo">
-{{ site.metamon }}
-  </pre>
-</header>
-
 Metamon is a Vagrantfile combined with a set of Ansible Playbooks which can be used to quickly start a new Django project.
 
 ## Motivation

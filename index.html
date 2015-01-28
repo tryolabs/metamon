@@ -1,0 +1,15 @@
+---
+title: Metamon
+layout: default
+---
+
+<header>
+  <pre class="logo">
+{{ site.metamon }}
+  </pre>
+</header>
+
+<div class="page-content">
+  {% capture home %}{% include home.md %}{% endcapture %}
+  {{ home | markdownify }}
+</div>
