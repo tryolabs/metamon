@@ -1,0 +1,9 @@
+# Site settings
+title: Metamon
+description: >
+  Metamon is a Vagrantfile combined with a set of Ansible Playbooks which can be
+  used to quickly start a new Django project.
+baseurl: "/metamon"
+
+# Build settings
+markdown: kramdown
