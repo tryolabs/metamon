@@ -1,0 +1,47 @@
+/* Page layout */
+
+.page-content {
+  width: 60%;
+  margin: 55px auto;
+
+  // Headings
+
+  h1, h2, h3, h4, h5 {
+    margin-bottom: 16px;
+  }
+
+  h1 {
+    margin-top: 35px;
+    padding-bottom: 10px;
+    border-bottom: $page-heading-border;
+  }
+
+  h2 {
+    margin-top: 30px;
+    padding-bottom: 8px;
+    border-bottom: $page-heading-border;
+  }
+
+  h3 {
+    margin-top: 25px;
+  }
+
+  h4 {
+    margin-top: 20;
+  }
+
+  h5 {
+    margin-top: 15px;
+  }
+
+  // Lists
+
+  ul, ol {
+    margin: 15px 0;
+    padding-left: 35px;
+  }
+
+  p {
+    margin: 15px 0;
+  }
+}

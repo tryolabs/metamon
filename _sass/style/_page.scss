@@ -1,0 +1,24 @@
+/* Page style */
+
+.page-content {
+  font-family: $page-text-font;
+
+  p {
+    line-height: 22px;
+  }
+
+  li {
+    margin-top: 5px;
+  }
+
+  code {
+    font-family: $page-code-font;
+  }
+
+  :not(pre) > code {
+    background-color: #fcfcfc;
+    padding: 1px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+}
