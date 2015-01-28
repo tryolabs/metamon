@@ -1,0 +1,19 @@
+/* Layout of the navigation bar */
+
+nav {
+  height: 60px;
+  line-height: 60px;
+
+  ul {
+    width: 200px;
+    margin: 0 auto;
+
+    list-style-type: none;
+    text-align: center;
+
+    li {
+      display: inline-block;
+      padding: 0 25px;
+    }
+  }
+}
