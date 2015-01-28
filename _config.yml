@@ -7,3 +7,18 @@ baseurl: "/metamon"
 
 # Build settings
 markdown: kramdown
+
+# Custom variables
+
+metamon: |
+ /~\_.-~-._,--.._
+ |                ~-.._
+  |     .     .        \
+  |                    /
+  |     --._..'       | \
+  /                      \
+ |                        |
+ |                        \
+ /                         |
+ \_.-._  __...___.._______/
+       ~~
