@@ -1,0 +1,10 @@
+/* Style for the navbar */
+
+nav {
+  background: $navbar-background;
+
+  a {
+    color: $navbar-link-color;
+    text-decoration: none;
+  }
+}
