@@ -1,8 +1,8 @@
 /* Layout of the navigation bar */
 
 nav {
-  height: 60px;
-  line-height: 60px;
+  height: $navbar-height;
+  line-height: $navbar-height;
 
   ul {
     width: 200px;

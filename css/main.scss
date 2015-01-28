@@ -2,5 +2,12 @@
 ---
 @charset "utf-8";
 
-@import "bourbon/bourbon";
-@import "neat/neat";
+@import "utils/variables";
+
+@import "base/reset";
+
+@import "layout/navbar";
+@import "layout/home";
+
+@import "style/navbar";
+@import "style/home";
