@@ -102,7 +102,7 @@ DATABASES = {
 
 #  Optimizes read heavy PG workload, install only if PG
 if '{{ settings_dbbackend }}' == 'postgresql_psycopg2':
-    DATABASES['default']['OPTIONS'] = {'autocommit': True}
+    DATABASES['default']['AUTOCOMMIT'] = True
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
